@@ -7,7 +7,13 @@ var config = {
     storageBucket: "htn2018-dcc64.appspot.com",
     messagingSenderId: "560530870668"
 };
+
 firebase.initializeApp(config);
+var database = firebase.database();
+
+var ref = firebase.database().ref();
+
+var updater;
 
 window.onload = function () {
 
@@ -15,6 +21,15 @@ window.onload = function () {
 
 function getInput() {
     var code = document.getElementById("input").value;
-    // console.log(code)
-    alert(code)
+    ref.on("value", function(snapshot) {
+        //console.log(snapshot.val());
+        var data = snapshot.val()[code];
+        console.log(data)
+        
+        document.getElementById("messages").innerHTML = data[Object.keys(data)[Object.keys(data).length-1]];
+    }, function (error) {
+        console.log("Error: " + error.code);
+    });
+
+    updater = setInterval(getInput, 1000);
 }
