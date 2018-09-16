@@ -10,26 +10,22 @@ var config = {
 
 firebase.initializeApp(config);
 var database = firebase.database();
-
 var ref = firebase.database().ref();
-
-var updater;
+var code = null;
 
 window.onload = function () {
 
 }
 
 function getInput() {
-    var code = document.getElementById("input").value;
+    code = document.getElementById("input").value;
     ref.on("value", function(snapshot) {
         //console.log(snapshot.val());
         var data = snapshot.val()[code];
         console.log(data)
-        
+
         document.getElementById("messages").innerHTML = data[Object.keys(data)[Object.keys(data).length-1]];
     }, function (error) {
         console.log("Error: " + error.code);
     });
-
-    updater = setInterval(getInput, 1000);
 }
